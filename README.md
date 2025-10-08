@@ -61,5 +61,5 @@ After making a change you will be getting an Output like this in the ec2 server:
 
 <img width="739" height="511" alt="Screenshot (37)" src="https://github.com/user-attachments/assets/4fa9a8c9-fa6e-40dc-87f3-513123625151" />
 
-### This output ensures that the code has integrated AWS EC2 with GitHub Actions using a self-hosted runner & automated Python testing using pytest.###
+**This output ensures that the code has integrated AWS EC2 with GitHub Actions using a self-hosted runner & automated Python testing using pytest.**
 

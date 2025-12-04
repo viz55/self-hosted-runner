@@ -23,9 +23,7 @@ The main workflow file is located at:  `.github/workflows/action_file.yml`
 - Go to AWS Console → EC2 → Launch Instance
 - Choose:
 `Amazon Linux` or `Ubuntu`
-- Configure security groups of the instance inside security option to allow SSH (port 22), HTTP (port 80) and HTTPS (port 443) as shown: -
-
-<img width="1267" height="595" alt="Screenshot (32)" src="https://github.com/user-attachments/assets/6d374772-d70c-42ef-97e8-2876938d1186" />
+- Configure security groups of the instance inside security option to allow SSH (port 22), HTTP (port 80) and HTTPS (port 443).
 
 *Step 2: Connect to EC2 via SSH*
 

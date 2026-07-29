@@ -56,15 +56,14 @@ sudo apt update -y
 - Repo → **Settings → Actions → Runners → New self-hosted runner**
 - Choose **Linux → x64**
 - Run the exact commands GitHub shows you to download and configure the runner
-- 
-
-<img width="751" height="576" alt="Screenshot (35)" src="https://github.com/user-attachments/assets/dd4bf9ad-a0e3-429b-9167-8d761c1ad519" />
 
 
 ### 5. Start the runner
 ```bash
 ./run.sh
 ```
+
+<img width="751" height="576" alt="Screenshot (35)" src="https://github.com/user-attachments/assets/dd4bf9ad-a0e3-429b-9167-8d761c1ad519" />
 
 > ⚠️ **Important:** In `action_file.yml`, set `runs-on: self-hosted` (not `ubuntu-latest`) — otherwise your jobs will run on GitHub's own infrastructure instead of your EC2 box.
 

@@ -73,9 +73,8 @@ Push a change to the repo. You should see the job picked up live in your EC2 ter
 
 <img width="739" height="511" alt="Screenshot (37)" src="https://github.com/user-attachments/assets/4fa9a8c9-fa6e-40dc-87f3-513123625151" />
 
-
-## 📈 Possible extensions
-See the "what's next" ideas in the project write-up — turning this from a demo into a small piece of real infrastructure (auto-scaling runners, Docker isolation, monitoring, IaC).
+## 🔭 Beyond this demo
+This project focuses on the core mechanics of self-hosted CI/CD. In a production setup, I'd take it further by provisioning the EC2 instance with **Terraform** instead of the console, running tests inside **Docker** for a reproducible, isolated environment, and adding **auto-scaling runners** that spin up on-demand when a workflow triggers rather than sitting idle. Those are the next architectural layers I'd add for a real deployment.
 
 ## 🧰 Tech Stack
 `AWS EC2` · `GitHub Actions` · `Python` · `pytest` · `Linux`

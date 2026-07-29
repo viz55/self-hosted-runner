@@ -1,63 +1,85 @@
-# GitHub Actions — Self-Hosted Runner on AWS EC2
+# 🚀 GitHub Actions — Self-Hosted Runner on AWS EC2
 
-This project demonstrates how to set up a *self-hosted GitHub Actions runner* on an *AWS EC2 instance* to run CI/CD pipelines for a Python project.  
-It runs automated tests using *python* & *pytest* every time code is pushed to the repository.
+![Workflow Status](https://github.com/viz55/self-hosted-runner/actions/workflows/action_file.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.8%20%7C%203.9-blue?logo=python)
+![AWS](https://img.shields.io/badge/AWS-EC2-orange?logo=amazonaws)
+![License](https://img.shields.io/github/license/viz55/self-hosted-runner)
 
-## Project Overview
+A CI/CD pipeline that runs automated Python tests on a **self-hosted GitHub Actions runner** hosted on an AWS EC2 instance — instead of relying on GitHub's own (shared, rate-limited) hosted runners.
 
-This workflow:
-- Uses **GitHub Actions** for CI/CD.
-- Runs on a **self-hosted runner** (hosted on AWS EC2).
-- Tests Python code using **pytest** on multiple versions of Python (3.8 and 3.9).
+---
 
-## Workflow File
+## 📌 Why this project matters
 
-The main workflow file is located at:  `.github/workflows/action_file.yml`
+GitHub-hosted runners are convenient but have limits: fixed specs, limited minutes on free tiers, and no control over the environment. This project shows how to stand up your **own compute** for CI, which is exactly what companies do when they need custom hardware, private network access, or to cut CI costs at scale.
 
-## Setting Up a Self-Hosted Runner on AWS EC2
-
-**Follow these steps to connect your EC2 instance to GitHub Actions as a runner:**
-
-*Step 1: Launch an EC2 Instance*
-
-- Go to AWS Console → EC2 → Launch Instance
-- Choose:
-`Amazon Linux` or `Ubuntu`
-- Configure security groups of the instance inside security option to allow SSH (port 22), HTTP (port 80) and HTTPS (port 443).
-
-*Step 2: Connect to EC2 via SSH*
+## 🧱 Architecture
 
 ```
+Push to GitHub  ──▶  GitHub Actions Workflow Triggered
+                             │
+                             ▼
+                  Self-Hosted Runner (AWS EC2)
+                             │
+                             ▼
+                Installs deps → Runs pytest (3.8 & 3.9)
+                             │
+                             ▼
+              ✅ / ❌ Status reported back to GitHub
+```
+
+## ⚙️ What the workflow does
+
+- Triggers on every push to the repository
+- Runs on a **self-hosted runner** (your own AWS EC2 instance)
+- Tests the Python codebase with `pytest` across **Python 3.8 and 3.9**
+- Workflow file: [`.github/workflows/action_file.yml`](.github/workflows/action_file.yml)
+
+## 🛠️ Setup: Connecting an EC2 Runner to GitHub
+
+### 1. Launch an EC2 instance
+- AWS Console → EC2 → Launch Instance
+- AMI: Amazon Linux or Ubuntu
+- Security group: allow inbound SSH (22), HTTP (80), HTTPS (443)
+
+### 2. SSH into the instance
+```bash
 ssh -i "your-key.pem" ec2-user@your-ec2-public-ip
 ```
 
-*Step 3: Update the Packages*
-
-```
+### 3. Update packages
+```bash
 sudo apt update -y
 ```
 
-*Step 4: Register Runner with GitHub*
-- Go to your **GitHub repository → Settings → Actions → Runners → New self-hosted runner**
-- Choose **Linux → x64** in architecture
-- Follow the commands shown in the website to configure the self-hosted runner.
-
-*Step 5: Start the Runner*
-use the command: `./run.sh` to start the runner in the server.
-
-Once it starts, you’ll get am output like this: -
+### 4. Register the runner with GitHub
+- Repo → **Settings → Actions → Runners → New self-hosted runner**
+- Choose **Linux → x64**
+- Run the exact commands GitHub shows you to download and configure the runner
+- 
 
 <img width="751" height="576" alt="Screenshot (35)" src="https://github.com/user-attachments/assets/dd4bf9ad-a0e3-429b-9167-8d761c1ad519" />
 
-## Testing the Workflow:
 
-Make any change in the code provided inside `.github/workflows/action_file.yml` and push to GitHub
+### 5. Start the runner
+```bash
+./run.sh
+```
 
-#### Note: Change the `runs-on: ubuntu-latest` to `runs-on: self-hosted` in the code and push to github before making any other changes to run the code inside self-hosted runners and not github-hosted runners.
+> ⚠️ **Important:** In `action_file.yml`, set `runs-on: self-hosted` (not `ubuntu-latest`) — otherwise your jobs will run on GitHub's own infrastructure instead of your EC2 box.
 
-After making a change you will be getting an Output like this in the ec2 server:
+## ✅ Verifying it works
+
+Push a change to the repo. You should see the job picked up live in your EC2 terminal running `run.sh`, and the result (pass/fail) reflected in the **Actions** tab on GitHub.
 
 <img width="739" height="511" alt="Screenshot (37)" src="https://github.com/user-attachments/assets/4fa9a8c9-fa6e-40dc-87f3-513123625151" />
 
-**This output ensures that the code has integrated AWS EC2 with GitHub Actions using a self-hosted runner & automated Python testing using pytest.**
 
+## 📈 Possible extensions
+See the "what's next" ideas in the project write-up — turning this from a demo into a small piece of real infrastructure (auto-scaling runners, Docker isolation, monitoring, IaC).
+
+## 🧰 Tech Stack
+`AWS EC2` · `GitHub Actions` · `Python` · `pytest` · `Linux`
+
+## 📄 License
+MIT — see [LICENSE](LICENSE)
